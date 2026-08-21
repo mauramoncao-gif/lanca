@@ -6,8 +6,13 @@ const phases = [
  {n:5,w:[12,99],name:"Polimento / taper",intensity:"85–95%",desc:"Reduzir volume e preservar velocidade para chegar fresca.",minSessions:2,maxAvgPain:2,maxAvgBack:2,maxAvgRpe:9}
 ];
 
-let settings = JSON.parse(localStorage.getItem("lancaSettings") || localStorage.getItem("rugbyV2Settings") || "{}");
-let history = JSON.parse(localStorage.getItem("lancaHistory") || localStorage.getItem("rugbyV2History") || "[]");
+function safeJSONParse(raw, fallback){
+  try { return raw ? JSON.parse(raw) : fallback; } catch(e) { return fallback; }
+}
+let settings = safeJSONParse(localStorage.getItem("lancaSettings") || localStorage.getItem("rugbyV2Settings"), {});
+let history = safeJSONParse(localStorage.getItem("lancaHistory") || localStorage.getItem("rugbyV2History"), []);
+if(!Array.isArray(history)) history = [];
+if(!settings || typeof settings !== "object" || Array.isArray(settings)) settings = {};
 let state = {place:"treadmill", after:"yes", readiness:"green"};
 let timerSteps=[], stepIndex=0, remaining=0, totalStep=1, timerId=null, running=false;
 
@@ -26,6 +31,9 @@ function dateOnly(s){return new Date(s+"T12:00:00")}
 function getWeek(){
   const start=dateOnly(settings.startDate||"2026-08-18");
   return Math.max(1,Math.floor((new Date()-start)/604800000)+1);
+}
+function phaseForWeek(week){
+  return phases.find(p => week >= p.w[0] && week <= p.w[1]) || phases[phases.length - 1];
 }
 function plannedPhase(){ return phaseForWeek(getWeek()) }
 function phaseHistory(n){

@@ -1,4 +1,4 @@
-LANÇA — PWA V6 SEGURA
+LANÇA — PWA V6.1 SEGURA
 
 PACOTE PRONTO PARA GITHUB PAGES
 Arquivos da raiz:
@@ -33,3 +33,10 @@ Nenhum arquivo de fonte externo é solicitado.
 
 PUBLICAÇÃO
 Suba todo o conteúdo desta pasta para a raiz do repositório GitHub Pages.
+
+
+CORREÇÃO V6.1
+- Restaurada phaseForWeek(), responsável por mapear semana -> fase planejada.
+- Adicionado parsing defensivo do armazenamento local.
+- Cache do Service Worker atualizado para lanca-pwa-v6-1-secure.
+- Preservadas identidade, segurança, histórico, progressão, Esteira/Society e limite de duração.
