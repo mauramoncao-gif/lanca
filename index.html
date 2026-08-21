@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0D0F">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; media-src 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="icons/icon-64.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>LANÇA — preparação para novembro</title>
+<style>
+:root{
+  --ferro:#0B0D0F;
+  --ferro-elevado:#12171B;
+  --surface:#0F1316;
+  --line:#232A30;
+  --metal:#3A4147;
+  --metal-light:#5C666D;
+  --text:#F2F4F5;
+  --text-2:#9AA3AA;
+  --ember:#E8402A;
+  --forge:#FF7A1A;
+  --blade:#4FA8D9;
+  --ok:#5FA46B;
+  --bad:#C2352C;
+  --font-display:"Arial Narrow","Aptos Narrow","Roboto Condensed",Impact,sans-serif;
+  --font-body:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-mono:ui-monospace,"Cascadia Mono","SFMono-Regular",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--ferro)}
+body{
+  margin:0;background:var(--ferro);color:var(--text);
+  font-family:var(--font-body);min-height:100vh
+}
+button,input,select{font:inherit}
+button{min-height:48px}
+.app{max-width:780px;margin:auto;padding:14px 14px 100px}
+.hero,.card{
+  background:var(--ferro-elevado);border:1px solid var(--line);border-radius:20px
+}
+.hero{
+  padding:20px;
+  background:
+    radial-gradient(circle at 92% 4%,rgba(232,64,42,.18),transparent 33%),
+    linear-gradient(145deg,#1A1114 0%,var(--ferro-elevado) 58%,var(--surface) 100%);
+  border-color:#2A2124;position:relative;overflow:hidden
+}
+.brandline{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.brandicon{width:38px;height:38px;border-radius:10px;flex:0 0 auto}
+.brandname{
+  font-family:var(--font-display);font-weight:900;font-size:30px;line-height:.95;
+  letter-spacing:.02em;text-transform:uppercase
+}
+.eyebrow,label,.stat span,.kpi span,.badge,.tab{
+  font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em
+}
+.eyebrow{font-size:10px;letter-spacing:.22em;font-weight:700;color:var(--forge)}
+h1,h2,h3,.big{
+  font-family:var(--font-display);text-transform:uppercase;letter-spacing:0;font-weight:900
+}
+h1{margin:8px 0;font-size:44px;line-height:.9}
+h2{font-size:26px;line-height:1;margin:0 0 9px}
+h3{font-size:21px;line-height:1;margin:0 0 9px}
+.note{font-size:14px;color:var(--text-2);line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
+.stat{background:#0D1114;border:1px solid var(--line);border-radius:12px;padding:11px}
+.stat b,.kpi b,.rval{
+  display:block;font-family:var(--font-mono);font-variant-numeric:tabular-nums
+}
+.stat b{font-size:19px}.stat span{font-size:9px;color:var(--metal-light)}
+.tabs{
+  display:flex;gap:7px;overflow:auto;position:sticky;top:0;z-index:10;
+  padding:12px 0 7px;background:rgba(11,13,15,.95);backdrop-filter:blur(10px)
+}
+.tab{
+  white-space:nowrap;border:1px solid var(--line);background:var(--ferro-elevado);
+  color:var(--text-2);border-radius:999px;padding:9px 12px;font-weight:700;font-size:10px
+}
+.tab.active{background:var(--ember);color:var(--ferro);border-color:var(--ember)}
+section{display:none}.active-section{display:block}
+.card{padding:17px;margin-top:11px}
+.choicegrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.choice{
+  border:1px solid var(--line);background:var(--surface);color:var(--text);
+  border-radius:14px;padding:14px;text-align:left;cursor:pointer
+}
+.choice.active{border-color:var(--ember);box-shadow:inset 3px 0 0 var(--ember)}
+.choice b{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:20px}
+.choice small{color:var(--text-2);font-size:13px;line-height:1.4}
+.badge{
+  display:inline-flex;padding:6px 9px;border-radius:999px;background:#101A20;
+  border:1px solid #24404F;color:var(--blade);font-size:9px;font-weight:700
+}
+.badge.accent{color:var(--ferro);background:var(--ember);border-color:var(--ember)}
+.readiness{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.rbox{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px}
+label{display:block;color:var(--text-2);font-size:10px;font-weight:700;margin:10px 0 6px}
+.rval{font-size:20px;color:var(--text)}
+input[type=range]{width:100%;accent-color:var(--ember)}
+input[type=number],input[type=date],select,input[type=text]{
+  width:100%;padding:11px;border:1px solid var(--line);border-radius:12px;
+  background:#0D1114;color:var(--text)
+}
+.status{margin-top:10px;padding:12px;border-radius:0 12px 12px 0;font-weight:600;font-size:13px;line-height:1.45;border-left:3px solid}
+.green{background:#101713;border-color:var(--ok);color:#B7D8BD}
+.yellow{background:#17130E;border-color:var(--forge);color:#E3D2BF}
+.red{background:#171214;border-color:var(--bad);color:#D8A4A4}
+.session{
+  margin-top:9px;border:1px solid var(--line);background:var(--ferro-elevado);
+  border-radius:18px;padding:15px;overflow:hidden
+}
+.session:before{
+  content:"";display:block;height:4px;margin:-15px -15px 14px;
+  background:linear-gradient(90deg,var(--ember),var(--forge))
+}
+.session-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.big{font-size:28px;line-height:.95;margin-top:7px}
+.ex{
+  display:grid;grid-template-columns:1fr auto;gap:8px;padding:11px 0;
+  border-bottom:1px solid var(--line);font-size:14px
+}
+.ex:last-child{border:0}.ex small{color:var(--text-2);text-align:right;font-family:var(--font-mono)}
+.btn{
+  border:0;border-radius:14px;padding:13px 16px;min-height:56px;font-family:var(--font-display);
+  text-transform:uppercase;letter-spacing:.04em;font-size:20px;font-weight:900;cursor:pointer
+}
+.primary{background:linear-gradient(100deg,var(--ember),var(--forge));color:var(--ferro)}
+.secondary{background:var(--ferro-elevado);color:var(--text);border:1px solid var(--metal)}
+.danger{background:#171214;color:#D8A4A4;border:1px solid #3A2429}
+.btn:disabled{background:#171214;color:#8A6A6A;border:1px solid #3A2429;cursor:not-allowed}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.callout{padding:13px;border-radius:12px;background:var(--surface);border:1px solid var(--line);margin-top:10px}
+.phase{padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:10px}.phase:last-child{border:0}
+.dot{width:10px;height:10px;border-radius:2px;background:var(--metal);margin-top:5px;flex:0 0 auto;transform:rotate(45deg)}
+.dot.on{background:var(--ember);box-shadow:0 0 0 4px rgba(232,64,42,.11)}
+.timer{text-align:center}
+.clock{
+  font-family:var(--font-mono);font-size:64px;font-weight:700;font-variant-numeric:tabular-nums;
+  letter-spacing:-.05em
+}
+.progress{height:9px;background:#0D1114;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:14px 0}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--ember),var(--forge))}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{text-align:center;background:#0D1114;border:1px solid var(--line);border-radius:12px;padding:10px}
+.kpi b{font-size:18px}.kpi span{font-size:9px;color:var(--metal-light)}
+.hist{padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.hist:last-child{border:0}
+.footer{
+  font-family:var(--font-mono);font-size:9px;color:var(--metal-light);line-height:1.55;
+  letter-spacing:.04em;margin:18px 4px;text-transform:uppercase
+}
+.offline-ok{color:var(--ok)!important;border-color:#2A3A2E!important}
+.offline-off{color:var(--forge)!important;border-color:#46331F!important}
+@media(max-width:580px){
+  .grid{grid-template-columns:1fr 1fr}.readiness,.choicegrid{grid-template-columns:1fr}
+  .clock{font-size:54px}h1{font-size:40px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <div class="brandline">
+      <img class="brandicon" src="icons/icon-64.png" alt="">
+      <div class="brandname">LANÇA</div>
+    </div>
+    <div class="eyebrow">Preparação para novembro</div>
+    <h1>Tiros<br>curtos</h1>
+    <div class="note">Progressão semanal, check-in de resposta física e cronômetro de intervalos. Sessões de 20–25 min, com teto de 30 min, para esteira ou Society.</div>
+    <div class="actions" style="margin-top:14px">
+      <button class="btn primary" id="installApp" style="display:none">Instalar no celular</button>
+      <span class="badge" id="offlineBadge">ONLINE</span>
+    </div>
+    <div class="grid">
+      <div class="stat"><b id="weekHero">1</b><span>semana</span></div>
+      <div class="stat"><b id="phaseHero">F1</b><span>fase</span></div>
+      <div class="stat"><b>25 min</b><span>meta</span></div>
+      <div class="stat"><b id="totalHero">0</b><span>treinos</span></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="today">Treinar</button>
+    <button class="tab" data-tab="plan">Plano</button>
+    <button class="tab" data-tab="timer">Cronômetro</button>
+    <button class="tab" data-tab="history">Histórico</button>
+    <button class="tab" data-tab="settings">Ajustes</button>
+  </div>
+
+  <section id="today" class="active-section">
+    <div class="card">
+      <span class="badge" id="phaseBadge">FASE 1</span>
+      <h2 style="margin-top:7px" id="phaseTitle"></h2>
+      <div class="note" id="phaseDesc"></div>
+    </div>
+
+    <div class="card">
+      <h3>Progressão da fase</h3>
+      <div id="progressionStatus" class="status yellow"></div>
+      <div class="kpis" style="margin-top:10px">
+        <div class="kpi"><b id="phaseSessions">0/0</b><span>sessões válidas</span></div>
+        <div class="kpi"><b id="phasePain">—</b><span>joelho médio</span></div>
+        <div class="kpi"><b id="phaseRpe">—</b><span>RPE médio</span></div>
+      </div>
+      <div class="note" style="margin-top:10px">A data indica a fase planejada. O app só libera a próxima fase quando os critérios mínimos da fase atual também forem atingidos.</div>
+    </div>
+
+    <div class="card">
+      <h3>1. Onde você vai treinar?</h3>
+      <div class="choicegrid">
+        <button class="choice active" data-place="treadmill"><b>Esteira</b><small>Tiros por tempo, sem sprint máximo.</small></button>
+        <button class="choice" data-place="field"><b>Society</b><small>Acelerações por distância e desaceleração.</small></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2. Esse treino será após musculação?</h3>
+      <div class="choicegrid">
+        <button class="choice active" data-after="yes"><b>Sim</b><small>O volume pode ser reduzido conforme fadiga.</small></button>
+        <button class="choice" data-after="no"><b>Não</b><small>Sessão de corrida isolada.</small></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>3. Check-in de resposta</h3>
+      <div class="readiness">
+        <div class="rbox"><label>Joelho <span class="rval" id="kneeVal">0</span>/10</label><input id="knee" type="range" min="0" max="10" value="0"></div>
+        <div class="rbox"><label>Lombar <span class="rval" id="backVal">0</span>/10</label><input id="back" type="range" min="0" max="10" value="0"></div>
+        <div class="rbox"><label>Fadiga das pernas <span class="rval" id="fatigueVal">2</span>/10</label><input id="fatigue" type="range" min="0" max="10" value="2"></div>
+        <div class="rbox"><label>Recuperação/sono <span class="rval" id="sleepVal">8</span>/10</label><input id="sleep" type="range" min="0" max="10" value="8"></div>
+      </div>
+      <div id="readinessStatus" class="status green"></div>
+    </div>
+
+    <div class="card">
+      <h3>Sessão de hoje</h3>
+      <div id="sessionCard"></div>
+      <div class="actions">
+        <button class="btn primary" id="startWorkout">Iniciar treino</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Regras rápidas</h3>
+      <div class="callout note">
+        <b style="color:var(--text)">Esteira:</b> não pular nas laterais com a lona em alta velocidade. Faça a recuperação reduzindo a velocidade da própria esteira.<br><br>
+        <b style="color:var(--text)">Society:</b> use trecho reto nas primeiras fases. Mudança de direção só entra depois e apenas com boa resposta do joelho.<br><br>
+        <b style="color:var(--text)">Após musculação:</b> se as pernas estiverem pesadas, o app corta volume automaticamente.
+      </div>
+    </div>
+  </section>
+
+  <section id="plan">
+    <div class="card">
+      <h2>Progressão até novembro</h2>
+      <div id="phaseList"></div>
+    </div>
+    <div class="card">
+      <h3>Regra de duração</h3>
+      <div class="note">Todas as fases foram desenhadas para caber em aproximadamente 20–25 min. O app não programa sessão acima de 30 min. A progressão agora é híbrida: a semana define a fase planejada, mas o avanço real exige sessões concluídas e boa resposta registrada de joelho, lombar e RPE.</div>
+    </div>
+  </section>
+
+  <section id="timer">
+    <div class="card timer">
+      <span class="badge accent" id="timerType">PRONTO</span>
+      <h2 id="timerTitle" style="margin-top:8px">Selecione “Iniciar treino”</h2>
+      <div class="clock" id="clock">00:00</div>
+      <div class="note" id="timerMeta">Som e vibração marcam as trocas.</div>
+      <div class="progress"><div class="bar" id="timerBar"></div></div>
+      <div class="actions" style="justify-content:center">
+        <button class="btn primary" id="timerStart">Iniciar</button>
+        <button class="btn secondary" id="timerPause">Pausar</button>
+        <button class="btn danger" id="timerReset">Encerrar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="history">
+    <div class="card">
+      <h2>Histórico</h2>
+      <div class="kpis">
+        <div class="kpi"><b id="histTotal">0</b><span>treinos</span></div>
+        <div class="kpi"><b id="histRpe">—</b><span>RPE médio</span></div>
+        <div class="kpi"><b id="histPain">—</b><span>joelho pós</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Registrar treino</h3>
+      <label>RPE 1–10</label><input id="rpe" type="number" min="1" max="10" value="6">
+      <label>Joelho após 0–10</label><input id="postPain" type="number" min="0" max="10" value="0">
+      <label>Lombar após 0–10</label><input id="postBack" type="number" min="0" max="10" value="0">
+      <label>Observação</label><input id="note" type="text" placeholder="Ex.: treino leve, sem desconforto">
+      <div class="actions"><button class="btn primary" id="saveSession">Salvar</button></div>
+    </div>
+    <div class="card"><h3>Últimos registros</h3><div id="historyList" class="note">Nenhum treino registrado.</div></div>
+  </section>
+
+  <section id="settings">
+    <div class="card">
+      <h2>Ajustes</h2>
+      <label>Início do programa</label><input id="startDate" type="date" value="2026-08-18">
+      <label>Data-alvo do possível jogo</label><input id="targetDate" type="date" value="2026-11-15">
+      <label>Duração preferida</label>
+      <select id="preferredDuration"><option value="20">20 min</option><option value="25" selected>25 min</option><option value="30">30 min</option></select>
+      <div class="actions"><button class="btn primary" id="saveSettings">Salvar ajustes</button></div>
+    </div>
+
+    <div class="card">
+      <h3>Segurança e privacidade</h3>
+      <div class="note">
+        Este app não solicita câmera, microfone, localização, contatos ou arquivos do celular.
+        Os registros de treino ficam armazenados localmente no navegador deste aparelho.
+      </div>
+      <div class="actions">
+        <button class="btn danger" id="clearLocalData">Apagar meus dados deste aparelho</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Aplicativo</h3>
+      <div class="note">LANÇA • PWA 6.0 • preparada para instalação e uso offline após o primeiro carregamento.</div>
+      <div class="actions">
+        <button class="btn secondary" id="checkUpdate">Verificar atualização</button>
+      </div>
+      <div id="updateStatus" class="note" style="margin-top:8px"></div>
+    </div>
+    <div class="card">
+      <h3>Limites de segurança</h3>
+      <div class="note">Dor crescente, inchaço, falseio, travamento, alteração de marcha, dor irradiada ou sintomas neurológicos: interromper a sessão e buscar avaliação profissional. O aplicativo é um organizador de treino, não substitui avaliação presencial.</div>
+    </div>
+  </section>
+
+  <div class="footer">LANÇA • preparação para novembro • PWA 6.0 segura • dados locais • uso offline.</div>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

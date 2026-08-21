@@ -1,0 +1,36 @@
+RUGBY SPRINT PREP — AUDITORIA DE SEGURANÇA V5
+
+Acessos do app:
+- câmera: não
+- microfone: não
+- localização/GPS: não
+- contatos: não
+- arquivos/fotos: não
+- Bluetooth/NFC: não
+- notificações push: não
+- APIs externas/analytics/anúncios: não
+- vibração: sim, apenas para alertas do cronômetro
+- armazenamento: localStorage do navegador na origem do app
+
+Endurecimentos:
+1. CSP restringindo scripts e conexões ao próprio app.
+2. JavaScript externo local; sem script inline.
+3. Sanitização/escape de observações salvas no histórico.
+4. Service Worker bloqueando origem externa.
+5. Política no-referrer.
+6. Botão para apagar dados locais.
+7. Nenhum SDK, tracker, anúncio ou biblioteca externa.
+
+Limites:
+- risco zero não pode ser garantido;
+- mantenha Android e navegador atualizados;
+- proteja a conta usada para hospedar/publicar o app com 2FA;
+- não conceda permissões futuras sem necessidade clara.
+
+
+ATUALIZAÇÃO V6 — IDENTIDADE LANÇA
+- Identidade aplicada sem adicionar chamadas de terceiros.
+- Ícones incorporados localmente.
+- Nenhum Google Fonts ou CDN.
+- CSP permanece restritiva.
+- Dados migrados para chaves lancaSettings/lancaHistory com leitura retrocompatível.

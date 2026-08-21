@@ -1,0 +1,14 @@
+OK - nome LANÇA no manifest
+OK - short_name Lança
+OK - tema #0B0D0F
+OK - CSP preservada
+OK - sem URLs externas no HTML
+OK - sem emojis principais
+OK - ícone 36
+OK - ícone 64
+OK - ícone 192
+OK - ícone 512
+OK - storage LANÇA
+OK - cache LANÇA
+OK - progressão preservada
+OK - teto 30 preservado
