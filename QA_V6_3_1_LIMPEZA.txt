@@ -1,9 +1,0 @@
-OK - README atualizado
-OK - sem QA V6.1
-OK - sem QA V6.2
-OK - sem QA identidade antigo
-OK - QA V6.3 mantido
-OK - app.js mantido
-OK - manifest mantido
-OK - service worker atualizado
-OK - index mantido
