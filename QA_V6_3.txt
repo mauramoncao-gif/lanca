@@ -1,0 +1,12 @@
+FALHA - sem RPE na interface
+OK - esteira com km/h
+OK - society objetivo
+OK - conclusão objetiva
+OK - progressão sem RPE
+OK - joelho/lombar
+OK - Esteira/Society
+OK - teto 30 min
+OK - histórico local
+OK - CSP
+OK - offline V6.3
+OK - IDs válidos

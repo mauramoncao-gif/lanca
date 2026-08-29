@@ -473,7 +473,7 @@ if(installButton){
 if("serviceWorker" in navigator){
   window.addEventListener("load", async ()=>{
     try{
-      await navigator.serviceWorker.register("./service-worker.js");
+      await navigator.serviceWorker.register("./service-worker.js?v=6.4.3",{updateViaCache:"none"});
     }catch(err){
       console.error("Falha no Service Worker:", err);
     }
@@ -487,7 +487,11 @@ if(updateButton){
       const reg = await navigator.serviceWorker.getRegistration();
       if(!reg){ out.textContent = "O aplicativo ainda não está registrado para uso offline."; return; }
       await reg.update();
-      out.textContent = "Verificação concluída. Se houver nova versão, ela será aplicada ao reabrir o app.";
+      if(reg.waiting){
+        reg.waiting.postMessage({type:"SKIP_WAITING"});
+      }
+      out.textContent = "Atualização verificada. O LANÇA vai recarregar para aplicar a versão mais recente.";
+      setTimeout(()=>location.reload(),700);
     }catch(e){
       out.textContent = "Não foi possível verificar atualização agora.";
     }
@@ -501,6 +505,15 @@ if(clearLocalDataButton){
     localStorage.removeItem("lancaSettings");
     localStorage.removeItem("rugbyV2History");
     localStorage.removeItem("rugbyV2Settings");
+    location.reload();
+  });
+}
+
+let lancaReloading = false;
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.addEventListener("controllerchange", ()=>{
+    if(lancaReloading) return;
+    lancaReloading = true;
     location.reload();
   });
 }

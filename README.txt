@@ -1,4 +1,4 @@
-LANÇA — PWA V6.4.1 SEGURA
+LANÇA — PWA V6.4.3 SEGURA
 
 PACOTE PRONTO PARA GITHUB PAGES
 
@@ -53,5 +53,20 @@ ATUALIZAÇÃO V6.4 — CALIBRAÇÃO AUTOMÁTICA DA ESTEIRA
 
 
 ATUALIZAÇÃO V6.4.1 — CORREÇÃO DE IDENTIFICAÇÃO
-- Corrige versão exibida no app/site para PWA 6.4.1.
 - Mantém a lógica funcional da V6.4 sem alterações de treino.
+
+
+ATUALIZAÇÃO V6.4.2 — CORREÇÃO DE CACHE/ATUALIZAÇÃO
+- Corrige retenção de index.html antigo pelo Service Worker.
+- Navegação passa a usar network-first quando houver internet.
+- Nova versão assume controle imediatamente com skipWaiting + clients.claim.
+- Botão Verificar atualização força ativação e recarrega o LANÇA.
+- Uso offline continua preservado.
+
+
+ATUALIZAÇÃO V6.4.3 — QA DE ATUALIZAÇÃO
+- app.js recebe versionamento explícito na URL.
+- registro do Service Worker usa updateViaCache: none.
+- navegação, app.js e manifest usam network-first com cache no-store quando online.
+- cache permanece como fallback quando offline.
+- skipWaiting + clients.claim mantidos para assumir a nova versão imediatamente.
