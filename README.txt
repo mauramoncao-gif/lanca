@@ -1,4 +1,4 @@
-LANÇA — PWA V6.3.1 SEGURA
+LANÇA — PWA V6.4 SEGURA
 
 PACOTE PRONTO PARA GITHUB PAGES
 
@@ -40,3 +40,13 @@ DOCUMENTAÇÃO
 
 PUBLICAÇÃO
 Suba os arquivos para a raiz do repositório GitHub Pages.
+
+
+ATUALIZAÇÃO V6.4 — CALIBRAÇÃO AUTOMÁTICA DA ESTEIRA
+- Campo manual de VMC removido.
+- LANÇA conduz uma calibração guiada e define a referência de velocidade.
+- Calibração: 4 min de aquecimento a 4,5 km/h; estágios de 15 s iniciando em 7,0 km/h e aumentando 1,0 km/h; 45 s de recuperação a 4,5 km/h.
+- A maior velocidade concluída integralmente vira a referência.
+- Calibração bloqueada após musculação ou com check-in fora do verde.
+- O usuário não escolhe a intensidade do treino; o LANÇA calcula os km/h automaticamente.
+- Society continua objetivo por metros, repetições, recuperação e desaceleração.

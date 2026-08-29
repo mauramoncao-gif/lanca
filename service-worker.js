@@ -1,4 +1,4 @@
-const CACHE_NAME = "lanca-pwa-v6-3-1-secure";
+const CACHE_NAME = "lanca-pwa-v6-4-secure";
 const APP_SHELL = [
   "./","./index.html","./app.js","./manifest.webmanifest",
   "./icons/icon-36.png","./icons/icon-64.png","./icons/icon-192.png","./icons/icon-512.png"

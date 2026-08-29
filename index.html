@@ -248,7 +248,7 @@ input[type=number],input[type=date],select,input[type=text]{
     <div class="card">
       <h3>Regras rápidas</h3>
       <div class="callout note">
-        <b style="color:var(--text)">Esteira:</b> os tiros são prescritos por faixa de velocidade (km/h), calculada pela sua VMC. Não pule nas laterais com a lona em alta velocidade; reduza a velocidade da própria esteira para recuperar.<br><br>
+        <b style="color:var(--text)">Esteira:</b> os tiros são prescritos por faixa de velocidade (km/h), calculada pela sua velocidade calibrada. Não pule nas laterais com a lona em alta velocidade; reduza a velocidade da própria esteira para recuperar.<br><br>
         <b style="color:var(--text)">Society:</b> o LANÇA usa metros, repetições, recuperação e zona de desaceleração. Nas primeiras fases, faça os tiros em linha reta; mudança de direção só entra depois e com joelho verde.<br><br>
         <b style="color:var(--text)">Após musculação:</b> se as pernas estiverem pesadas, o app corta volume automaticamente.
       </div>
@@ -281,6 +281,43 @@ input[type=number],input[type=date],select,input[type=text]{
     </div>
   </section>
 
+
+  <section id="calibration">
+    <div class="card">
+      <span class="badge">CALIBRAÇÃO DA ESTEIRA</span>
+      <h2 style="margin-top:8px">LANÇA define sua referência</h2>
+      <div class="note">
+        Faça esta calibração descansada, sem treino pesado de pernas antes. Não é teste máximo.
+        O app controla as velocidades; você apenas executa cada estágio completo ou interrompe se houver dor,
+        desequilíbrio, necessidade de segurar nos apoios, tontura, falta de ar incomum ou insegurança.
+      </div>
+      <div id="calibrationGate" class="status yellow" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card timer">
+      <span class="badge accent" id="calType">PREPARAR</span>
+      <h2 id="calTitle" style="margin-top:8px">Calibração não iniciada</h2>
+      <div class="clock" id="calClock">00:00</div>
+      <div class="note" id="calInstruction">O primeiro estágio começa em 7,0 km/h.</div>
+      <div class="progress"><div class="bar" id="calBar"></div></div>
+      <div class="actions" style="justify-content:center">
+        <button class="btn primary" id="calStart">Iniciar calibração</button>
+        <button class="btn secondary" id="calCompleted" style="display:none">Concluí o estágio</button>
+        <button class="btn danger" id="calStop" style="display:none">Interromper</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Como funciona</h3>
+      <div class="note">
+        4 min de aquecimento caminhando. Depois, estágios de 15 s começando em 7,0 km/h e aumentando 1,0 km/h.
+        Entre eles, 45 s caminhando a 4,5 km/h. A maior velocidade concluída integralmente e com segurança vira
+        sua referência. O LANÇA usa essa referência para calcular os km/h de cada treino.
+      </div>
+      <div class="actions"><button class="btn secondary" id="cancelCalibration">Voltar sem calibrar</button></div>
+    </div>
+  </section>
+
   <section id="history">
     <div class="card">
       <h2>Histórico</h2>
@@ -308,10 +345,15 @@ input[type=number],input[type=date],select,input[type=text]{
       <label>Data-alvo do possível jogo</label><input id="targetDate" type="date" value="2026-11-15">
       <label>Duração preferida</label>
       <select id="preferredDuration"><option value="20">20 min</option><option value="25" selected>25 min</option><option value="30">30 min</option></select>
-      <label>Velocidade máxima controlada na esteira — VMC (km/h)</label>
-      <input id="treadmillVmc" type="number" min="6" max="25" step="0.1" placeholder="Ex.: 12,0">
-      <div class="note" style="margin-top:8px">
-        A VMC é a referência usada pelo LANÇA para calcular a faixa mínima–máxima de velocidade da esteira. Se você ainda não souber esse valor, não faça um teste máximo sozinha: use uma velocidade já conhecida dos seus treinos ou defina junto ao profissional que acompanha você.
+      <label>Velocidade de referência da esteira</label>
+      <div class="callout">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+          <div>
+            <b id="calibratedSpeedLabel" style="font-family:var(--font-mono);font-size:20px">Não calibrada</b>
+            <div id="calibratedSpeedMeta" class="note">O LANÇA define essa velocidade em uma calibração guiada.</div>
+          </div>
+          <button class="btn secondary" id="openCalibration" type="button">Calibrar</button>
+        </div>
       </div>
       <div class="actions"><button class="btn primary" id="saveSettings">Salvar ajustes</button></div>
     </div>

@@ -76,13 +76,14 @@ function nextPhaseProgress(){
 function intensityLabel(){return phase().intensity}
 
 function treadmillReferenceSpeed(){
-  const v = parseFloat(settings.treadmillVmc);
-  return Number.isFinite(v) && v >= 6 && v <= 25 ? v : null;
+  const cal = settings.treadmillCalibration;
+  const v = cal && parseFloat(cal.speed);
+  return Number.isFinite(v) && v >= 7 && v <= 15 ? v : null;
 }
 function treadmillSpeedRange(){
-  const vmc = treadmillReferenceSpeed();
+  const ref = treadmillReferenceSpeed();
   const p = phase();
-  if(!vmc) return null;
+  if(!ref) return null;
   const factors = {
     1:[0.70,0.80],
     2:[0.80,0.88],
@@ -91,13 +92,14 @@ function treadmillSpeedRange(){
     5:[0.85,0.95]
   };
   const f = factors[p.n] || factors[1];
-  const min = Math.round(vmc*f[0]*10)/10;
-  const max = Math.round(vmc*f[1]*10)/10;
-  return {min,max,vmc};
+  const reduction = isReduced() ? 0.92 : 1;
+  const min = Math.round(ref*f[0]*reduction*10)/10;
+  const max = Math.round(ref*f[1]*reduction*10)/10;
+  return {min,max,ref};
 }
 function treadmillSpeedText(){
   const r = treadmillSpeedRange();
-  return r ? `${r.min.toFixed(1)}–${r.max.toFixed(1)} km/h` : "Defina sua VMC em Ajustes";
+  return r ? `${r.min.toFixed(1)}–${r.max.toFixed(1)} km/h` : "Calibre a esteira em Ajustes";
 }
 function isReduced(){
   return state.readiness==="yellow" || (state.after==="yes" && +$("fatigue").value>=5);
@@ -256,8 +258,7 @@ function finishTimer(){
 }
 $("startWorkout").onclick=()=>{
   if(state.place==="treadmill" && !treadmillReferenceSpeed()){
-    switchTab("settings");
-    alert("Antes do primeiro treino na esteira, defina sua Velocidade Máxima Controlada (VMC) em Ajustes.");
+    openCalibration();
     return;
   }
   createTimer();
@@ -280,13 +281,158 @@ $("saveSession").onclick=()=>{
 $("startDate").value=settings.startDate||"2026-08-18";
 $("targetDate").value=settings.targetDate||"2026-11-15";
 $("preferredDuration").value=settings.preferredDuration||"25";
-$("treadmillVmc").value=settings.treadmillVmc||"";
 $("saveSettings").onclick=()=>{
-  settings={startDate:$("startDate").value,targetDate:$("targetDate").value,preferredDuration:$("preferredDuration").value,treadmillVmc:$("treadmillVmc").value};
+  settings={startDate:$("startDate").value,targetDate:$("targetDate").value,preferredDuration:$("preferredDuration").value};
   localStorage.setItem("lancaSettings",JSON.stringify(settings));render();alert("Ajustes salvos.");
 };
 
 readiness();render();
+
+
+// ===== Calibração automática da velocidade da esteira =====
+let calState = {running:false, phase:"idle", speed:7, lastCompleted:null, remaining:0, total:1, timer:null};
+
+function calibrationAllowed(){
+  const k=+$("knee").value, b=+$("back").value, f=+$("fatigue").value, s=+$("sleep").value;
+  return state.after==="no" && k<3 && b<3 && f<5 && s>=5;
+}
+function renderCalibrationSummary(){
+  const cal=settings.treadmillCalibration;
+  const label=$("calibratedSpeedLabel"), meta=$("calibratedSpeedMeta");
+  if(!label||!meta) return;
+  if(cal && cal.speed){
+    label.textContent=`${Number(cal.speed).toFixed(1)} km/h`;
+    const d=cal.date?new Date(cal.date).toLocaleDateString("pt-BR"):"";
+    meta.textContent=`Referência definida pelo LANÇA${d?` em ${d}`:""}. Recalibre ao mudar de fase ou após evolução consistente.`;
+    $("openCalibration").textContent="Recalibrar";
+  }else{
+    label.textContent="Não calibrada";
+    meta.textContent="O LANÇA define essa velocidade em uma calibração guiada.";
+    $("openCalibration").textContent="Calibrar";
+  }
+}
+function updateCalibrationGate(){
+  const box=$("calibrationGate");
+  if(!box) return;
+  if(calibrationAllowed()){
+    box.className="status green";
+    box.textContent="LIBERADA — faça a calibração em um dia sem musculação antes, com joelho/lombar abaixo de 3 e pernas sem fadiga relevante.";
+    $("calStart").disabled=false;
+  }else{
+    box.className="status yellow";
+    box.textContent="ADIADA — a calibração exige um dia mais descansado. Marque “Não” em pós-musculação e use check-in verde antes de calibrar.";
+    $("calStart").disabled=true;
+  }
+}
+function openCalibration(){
+  switchTab("calibration");
+  resetCalibration(false);
+  updateCalibrationGate();
+}
+function calSetScreen(type,title,sec,instruction){
+  calState.phase=type; calState.remaining=sec; calState.total=Math.max(1,sec);
+  $("calType").textContent=type==="warmup"?"AQUECER":type==="work"?"ESTÁGIO":"RECUPERAR";
+  $("calTitle").textContent=title;
+  $("calInstruction").textContent=instruction;
+  updateCalClock();
+}
+function updateCalClock(){
+  const m=Math.floor(calState.remaining/60), s=calState.remaining%60;
+  $("calClock").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  $("calBar").style.width=(100*(1-calState.remaining/calState.total))+"%";
+}
+function calSignal(){
+  if(navigator.vibrate) navigator.vibrate([180,80,180]);
+  try{
+    const ac=new (window.AudioContext||window.webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);o.frequency.value=920;g.gain.value=.07;o.start();o.stop(ac.currentTime+.16);
+  }catch(e){}
+}
+function calTick(){
+  if(calState.remaining>0){calState.remaining--;updateCalClock();return}
+  clearInterval(calState.timer);calState.timer=null;calState.running=false;calSignal();
+  if(calState.phase==="warmup"){
+    startCalibrationStage();
+  }else if(calState.phase==="work"){
+    $("calTitle").textContent=`Estágio ${calState.speed.toFixed(1)} km/h concluído`;
+    $("calInstruction").textContent="Se completou os 15 s sem segurar nos apoios, sem desequilíbrio e sem precisar parar, confirme. Caso contrário, interrompa.";
+    $("calCompleted").style.display="inline-block"; $("calStop").style.display="inline-block";
+  }else if(calState.phase==="recovery"){
+    startCalibrationStage();
+  }
+}
+function startCalTimer(){
+  calState.running=true; clearInterval(calState.timer); calState.timer=setInterval(calTick,1000);
+}
+function startCalibration(){
+  if(!calibrationAllowed()) return;
+  calState={running:false,phase:"warmup",speed:7,lastCompleted:null,remaining:240,total:240,timer:null};
+  $("calStart").style.display="none"; $("calCompleted").style.display="none"; $("calStop").style.display="inline-block";
+  calSetScreen("warmup","Aquecimento",240,"Caminhe a 4,5 km/h. Ao terminar, o LANÇA inicia os estágios automaticamente.");
+  startCalTimer();
+}
+function startCalibrationStage(){
+  if(calState.speed>15){
+    finishCalibration();
+    return;
+  }
+  $("calCompleted").style.display="none"; $("calStop").style.display="inline-block";
+  calSetScreen("work",`${calState.speed.toFixed(1)} km/h`,15,`Ajuste a esteira para ${calState.speed.toFixed(1)} km/h e complete 15 s. Não segure nos apoios.`);
+  startCalTimer();
+}
+function confirmCalibrationStage(){
+  if(calState.phase!=="work" || calState.remaining>0) return;
+  calState.lastCompleted=calState.speed;
+  calState.speed+=1;
+  $("calCompleted").style.display="none";
+  calSetScreen("recovery","Recuperação",45,"Reduza para 4,5 km/h e caminhe. O próximo estágio começa ao final.");
+  startCalTimer();
+}
+function stopCalibration(){
+  clearInterval(calState.timer);calState.timer=null;calState.running=false;
+  if(calState.lastCompleted!==null){
+    finishCalibration();
+  }else{
+    resetCalibration(false);
+    switchTab("today");
+    alert("Calibração encerrada sem referência. O LANÇA não prescreverá velocidade de esteira até uma calibração ser concluída.");
+  }
+}
+function finishCalibration(){
+  clearInterval(calState.timer);calState.timer=null;calState.running=false;
+  if(calState.lastCompleted===null){resetCalibration(false);return}
+  settings.treadmillCalibration={
+    speed:calState.lastCompleted,
+    date:new Date().toISOString(),
+    phase:phase().n
+  };
+  localStorage.setItem("lancaSettings",JSON.stringify(settings));
+  renderCalibrationSummary();
+  $("calType").textContent="CONCLUÍDA";
+  $("calTitle").textContent=`Referência: ${calState.lastCompleted.toFixed(1)} km/h`;
+  $("calClock").textContent="✓";
+  $("calInstruction").textContent="O LANÇA já pode calcular automaticamente a faixa de km/h dos seus treinos na esteira.";
+  $("calBar").style.width="100%";
+  $("calCompleted").style.display="none";$("calStop").style.display="none";$("calStart").style.display="inline-block";$("calStart").textContent="Recalibrar";
+  render();
+}
+function resetCalibration(back=true){
+  clearInterval(calState.timer);calState={running:false,phase:"idle",speed:7,lastCompleted:null,remaining:0,total:1,timer:null};
+  if($("calType")){
+    $("calType").textContent="PREPARAR";$("calTitle").textContent="Calibração não iniciada";$("calClock").textContent="00:00";
+    $("calInstruction").textContent="O primeiro estágio começa em 7,0 km/h.";$("calBar").style.width="0";
+    $("calStart").style.display="inline-block";$("calStart").textContent="Iniciar calibração";
+    $("calCompleted").style.display="none";$("calStop").style.display="none";
+  }
+  if(back) switchTab("settings");
+}
+$("openCalibration").onclick=openCalibration;
+$("calStart").onclick=startCalibration;
+$("calCompleted").onclick=confirmCalibrationStage;
+$("calStop").onclick=stopCalibration;
+$("cancelCalibration").onclick=()=>resetCalibration(true);
+renderCalibrationSummary();
+
 
 let deferredInstallPrompt = null;
 function updateConnectivityUI(){
