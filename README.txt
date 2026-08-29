@@ -1,4 +1,4 @@
-LANÇA — PWA V6.4 SEGURA
+LANÇA — PWA V6.4.1 SEGURA
 
 PACOTE PRONTO PARA GITHUB PAGES
 
@@ -50,3 +50,8 @@ ATUALIZAÇÃO V6.4 — CALIBRAÇÃO AUTOMÁTICA DA ESTEIRA
 - Calibração bloqueada após musculação ou com check-in fora do verde.
 - O usuário não escolhe a intensidade do treino; o LANÇA calcula os km/h automaticamente.
 - Society continua objetivo por metros, repetições, recuperação e desaceleração.
+
+
+ATUALIZAÇÃO V6.4.1 — CORREÇÃO DE IDENTIFICAÇÃO
+- Corrige versão exibida no app/site para PWA 6.4.1.
+- Mantém a lógica funcional da V6.4 sem alterações de treino.
