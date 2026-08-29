@@ -205,7 +205,7 @@ input[type=number],input[type=date],select,input[type=text]{
       <div class="kpis" style="margin-top:10px">
         <div class="kpi"><b id="phaseSessions">0/0</b><span>sessões válidas</span></div>
         <div class="kpi"><b id="phasePain">—</b><span>joelho médio</span></div>
-        <div class="kpi"><b id="phaseRpe">—</b><span>RPE médio</span></div>
+        <div class="kpi"><b id="phaseRpe">—</b><span>lombar média</span></div>
       </div>
       <div class="note" style="margin-top:10px">A data indica a fase planejada. O app só libera a próxima fase quando os critérios mínimos da fase atual também forem atingidos.</div>
     </div>
@@ -248,8 +248,8 @@ input[type=number],input[type=date],select,input[type=text]{
     <div class="card">
       <h3>Regras rápidas</h3>
       <div class="callout note">
-        <b style="color:var(--text)">Esteira:</b> não pular nas laterais com a lona em alta velocidade. Faça a recuperação reduzindo a velocidade da própria esteira.<br><br>
-        <b style="color:var(--text)">Society:</b> use trecho reto nas primeiras fases. Mudança de direção só entra depois e apenas com boa resposta do joelho.<br><br>
+        <b style="color:var(--text)">Esteira:</b> os tiros são prescritos por faixa de velocidade (km/h), calculada pela sua VMC. Não pule nas laterais com a lona em alta velocidade; reduza a velocidade da própria esteira para recuperar.<br><br>
+        <b style="color:var(--text)">Society:</b> o LANÇA usa metros, repetições, recuperação e zona de desaceleração. Nas primeiras fases, faça os tiros em linha reta; mudança de direção só entra depois e com joelho verde.<br><br>
         <b style="color:var(--text)">Após musculação:</b> se as pernas estiverem pesadas, o app corta volume automaticamente.
       </div>
     </div>
@@ -262,7 +262,7 @@ input[type=number],input[type=date],select,input[type=text]{
     </div>
     <div class="card">
       <h3>Regra de duração</h3>
-      <div class="note">Todas as fases foram desenhadas para caber em aproximadamente 20–25 min. O app não programa sessão acima de 30 min. A progressão agora é híbrida: a semana define a fase planejada, mas o avanço real exige sessões concluídas e boa resposta registrada de joelho, lombar e RPE.</div>
+      <div class="note">Todas as fases foram desenhadas para caber em aproximadamente 20–25 min. O app não programa sessão acima de 30 min. A progressão agora é híbrida: a semana define a fase planejada, mas o avanço real exige sessões concluídas e boa resposta registrada de joelho e lombar.</div>
     </div>
   </section>
 
@@ -286,14 +286,14 @@ input[type=number],input[type=date],select,input[type=text]{
       <h2>Histórico</h2>
       <div class="kpis">
         <div class="kpi"><b id="histTotal">0</b><span>treinos</span></div>
-        <div class="kpi"><b id="histRpe">—</b><span>RPE médio</span></div>
+        <div class="kpi"><b id="histBack">—</b><span>lombar média</span></div>
         <div class="kpi"><b id="histPain">—</b><span>joelho pós</span></div>
       </div>
     </div>
     <div class="card">
       <h3>Registrar treino</h3>
-      <label>RPE 1–10</label><input id="rpe" type="number" min="1" max="10" value="6">
-      <label>Joelho após 0–10</label><input id="postPain" type="number" min="0" max="10" value="0">
+      
+      <label>Conseguiu concluir os tiros previstos?</label><select id="completedPlanned"><option value="yes" selected>Sim</option><option value="no">Não</option></select><label>Joelho após 0–10</label><input id="postPain" type="number" min="0" max="10" value="0">
       <label>Lombar após 0–10</label><input id="postBack" type="number" min="0" max="10" value="0">
       <label>Observação</label><input id="note" type="text" placeholder="Ex.: treino leve, sem desconforto">
       <div class="actions"><button class="btn primary" id="saveSession">Salvar</button></div>
@@ -308,6 +308,11 @@ input[type=number],input[type=date],select,input[type=text]{
       <label>Data-alvo do possível jogo</label><input id="targetDate" type="date" value="2026-11-15">
       <label>Duração preferida</label>
       <select id="preferredDuration"><option value="20">20 min</option><option value="25" selected>25 min</option><option value="30">30 min</option></select>
+      <label>Velocidade máxima controlada na esteira — VMC (km/h)</label>
+      <input id="treadmillVmc" type="number" min="6" max="25" step="0.1" placeholder="Ex.: 12,0">
+      <div class="note" style="margin-top:8px">
+        A VMC é a referência usada pelo LANÇA para calcular a faixa mínima–máxima de velocidade da esteira. Se você ainda não souber esse valor, não faça um teste máximo sozinha: use uma velocidade já conhecida dos seus treinos ou defina junto ao profissional que acompanha você.
+      </div>
       <div class="actions"><button class="btn primary" id="saveSettings">Salvar ajustes</button></div>
     </div>
 
@@ -323,7 +328,7 @@ input[type=number],input[type=date],select,input[type=text]{
     </div>
     <div class="card">
       <h3>Aplicativo</h3>
-      <div class="note">LANÇA • PWA 6.1 • preparada para instalação e uso offline após o primeiro carregamento.</div>
+      <div class="note">LANÇA • PWA 6.3 • preparada para instalação e uso offline após o primeiro carregamento.</div>
       <div class="actions">
         <button class="btn secondary" id="checkUpdate">Verificar atualização</button>
       </div>
@@ -335,7 +340,7 @@ input[type=number],input[type=date],select,input[type=text]{
     </div>
   </section>
 
-  <div class="footer">LANÇA • preparação para novembro • PWA 6.1 segura • dados locais • uso offline.</div>
+  <div class="footer">LANÇA • preparação para novembro • PWA 6.3 segura • dados locais • uso offline.</div>
 </div>
 
 <script src="app.js" defer></script>

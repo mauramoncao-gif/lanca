@@ -1,0 +1,12 @@
+OK - VMC configurável
+OK - faixa km/h
+OK - RPE secundário
+OK - cronômetro com km/h
+OK - bloqueio sem VMC
+OK - Esteira/Society
+OK - progressão
+OK - histórico local
+OK - teto 30 min
+OK - CSP
+OK - cache V6.2
+OK - IDs JS válidos
