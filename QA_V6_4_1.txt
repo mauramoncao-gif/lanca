@@ -1,9 +1,0 @@
-OK - versão 6.4.1 no HTML
-OK - sem referência visual 6.3
-OK - calibração automática preservada
-OK - sem RPE
-OK - km/h preservado
-OK - Society objetivo preservado
-OK - histórico local
-OK - CSP
-OK - cache 6.4.1
