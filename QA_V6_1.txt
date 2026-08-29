@@ -1,9 +1,0 @@
-QA V6.1
-- phaseForWeek presente
-- progressão híbrida preservada
-- storage LANÇA preservado
-- fallback para storage corrompido
-- Esteira/Society preservados
-- teto 30 min preservado
-- CSP preservada
-- Service Worker cache versionado para V6.1
