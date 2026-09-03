@@ -1,0 +1,108 @@
+LANÇA — QA FINAL V6.7
+Status: APROVADA
+
+ESCOPO DA REVISÃO
+- Biblioteca interna de exercícios
+- Clareza didática das fichas
+- Animações locais/offline
+- Matriz de treinos Society F1–F5
+- Regras VERDE / AMARELO / VERMELHO
+- Bloqueio de mudança de direção em condição inadequada
+- Comportamento após musculação
+- Cronômetro do Society alinhado ao treino gerado
+- Esteira e calibração
+- Persistência dos ajustes
+- Segurança/PWA/cache
+
+QA ESTÁTICO — 31/31
+OK - IDs usados pelo JavaScript existem no HTML
+OK - RPE removido
+OK - versão visual 6.7
+OK - cache namespace 6.7
+OK - app.js com cache-busting 6.7
+OK - service worker com cache-busting 6.7
+OK - CSP continua bloqueando mídia/frame externos
+OK - aba Exercícios existe
+OK - biblioteca contém corte 45°
+OK - biblioteca contém corte 90°
+OK - biblioteca contém shuttle 180°
+OK - biblioteca contém shuffle lateral
+OK - biblioteca contém circuito em Z
+OK - biblioteca contém T drill
+OK - biblioteca contém Y planejado
+OK - biblioteca contém Y reativo
+OK - biblioteca contém sequência multidirecional
+OK - biblioteca contém sprints repetidos
+OK - animações SVG locais
+OK - estímulo reativo gerado localmente
+OK - VERMELHO bloqueia sessão
+OK - mudança de direção exige condição adequada
+OK - recuperação começa após desaceleração final
+OK - cronômetro manual do Society implementado
+OK - calibração da esteira preservada
+OK - salvar ajustes preserva calibração existente
+OK - service worker mantém estratégia de atualização
+OK - dados continuam locais
+OK - app.js não faz chamadas de rede
+OK - sintaxe app.js válida
+OK - sintaxe service-worker.js válida
+
+QA FUNCIONAL EM NAVEGADOR HEADLESS — 40/40
+OK - versão 6.7 exibida
+OK - aba Exercícios abre
+OK - 21 fichas carregadas
+OK - nenhuma menção visível a RPE
+OK - F1 Society gera sessão
+OK - F1 mostra orientação percentual de velocidade
+OK - antigo “tempo-alvo” removido
+OK - ficha de exercício abre animação
+OK - ficha mostra objetivo
+OK - ficha mostra montagem
+OK - ficha mostra passo a passo
+OK - ficha mostra erros a evitar
+OK - ficha mostra quando interromper
+OK - AMARELO gera sessão reduzida
+OK - AMARELO não seleciona Z/cortes/T/Y/shuttle
+OK - VERMELHO substitui treino por bloqueio
+OK - VERMELHO desabilita iniciar treino
+OK - F2 pode selecionar corte de 45°
+OK - F3 pode selecionar Z
+OK - F3 pode selecionar shuttle 180°
+OK - F3 pode selecionar corte 90° + shuffle
+OK - F4 pode selecionar Y reativo
+OK - Y reativo possui gerador de estímulo
+OK - estímulo reativo inicia corretamente
+OK - após musculação F4 prioriza treino linear
+OK - ficha do Z explica montagem com 4 cones
+OK - ficha do Z explica sequência 1→2→3→4
+OK - ficha do Z possui animação
+OK - cronômetro Society usa etapa manual para a repetição
+OK - ao concluir repetição, cronometra recuperação
+OK - nenhum erro JavaScript nos cenários testados
+OK - F5 oferece polimento linear
+OK - F5 oferece polimento com Z
+OK - F5 oferece polimento de corte
+OK - F5 AMARELO usa polimento reduzido
+OK - Esteira continua exibindo km/h calculados
+OK - salvar ajustes não apaga calibração da esteira
+OK - Y reativo gera ESQUERDA/DIREITA
+OK - nenhum erro runtime adicional
+OK - variação de sessão preservada
+
+DECISÕES DE UX/TREINO
+- A animação ensina o TRAJETO; o texto ensina a execução corporal.
+- Society usa distância + intensidade aproximada + recuperação + padrão de movimento.
+- Esteira continua usando km/h.
+- A recuperação no campo começa ao final da desaceleração da repetição.
+- Em tiros retos, isso corresponde ao final dos 5 m extras.
+- Mudanças de direção não são usadas em AMARELO nem após musculação.
+- F1 permanece predominantemente linear.
+- F2 introduz corte de 45° quando elegível.
+- F3 amplia Z, shuttle, 90° e lateral.
+- F4 inclui T, Y planejado, Y reativo e sequência multidirecional.
+- F5 reduz volume e preserva velocidade/coordenação.
+
+SEGURANÇA
+- Animações e biblioteca são locais.
+- Nenhum YouTube, iframe, CDN, analytics ou rastreador foi adicionado.
+- Nenhuma nova permissão do celular foi adicionada.

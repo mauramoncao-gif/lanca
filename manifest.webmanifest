@@ -2,7 +2,7 @@
   "id": "./",
   "name": "LANÇA — preparação para novembro",
   "short_name": "Lança",
-  "description": "App de tiros curtos com progressão semanal, check-in de resposta física e cronômetro de intervalos.",
+  "description": "Preparação progressiva para rugby com tiros curtos, padrões de movimento, biblioteca didática e cronômetro.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -1,4 +1,4 @@
-const CACHE_NAME = "lanca-pwa-v6-4-3-secure";
+const CACHE_NAME = "lanca-pwa-v6-7-secure";
 const APP_SHELL = [
   "./",
   "./index.html",

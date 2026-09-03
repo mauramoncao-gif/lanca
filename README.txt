@@ -1,72 +1,38 @@
-LANÇA — PWA V6.4.3 SEGURA
+LANÇA — PWA V6.7 SEGURA
 
-PACOTE PRONTO PARA GITHUB PAGES
+OBJETIVO
+Aplicativo pessoal para organizar a progressão de tiros curtos e padrões de deslocamento úteis à preparação para rugby.
 
-IDENTIDADE
-Nome: LANÇA
-Assinatura: LANÇA — preparação para novembro
-Nome curto de instalação: Lança
+V6.7 — BIBLIOTECA DIDÁTICA
+- Biblioteca interna de exercícios.
+- Cada sessão é montada usando fichas da biblioteca.
+- Cada ficha contém: objetivo, montagem, animação do trajeto, passo a passo, intensidade quando aplicável, erros comuns e critérios de interrupção.
+- Nova aba “Exercícios” para consultar os padrões fora da sessão.
+- Animações são locais/offline e não usam YouTube, rastreadores ou serviços externos.
+- Society: aceleração reta, desaceleração, repeated sprint, corte 45°, corte 90°, shuttle 180°, shuffle lateral, Z, T, Y planejado, Y reativo solo e sequência multidirecional.
+- F1 permanece prioritariamente linear.
+- F2 pode introduzir corte de 45° quando a condição está VERDE e o treino não é após musculação.
+- F3 amplia padrões planejados.
+- F4 concentra padrões mais específicos e reação.
+- F5 reduz volume e preserva velocidade/coordenação.
+- Em AMARELO, o app usa variantes lineares e reduzidas.
+- Em VERMELHO, não exibe nem inicia treino rápido.
+- Após musculação, mudança de direção não é selecionada.
+- Recuperação no Society começa ao fim da desaceleração.
+- Cronômetro do Society agora usa etapas manuais para a execução da repetição e cronometra a recuperação correspondente.
+- Esteira mantém calibração e prescrição objetiva em km/h.
+- Sem RPE.
 
-FUNCIONALIDADES PRINCIPAIS
-- Treinos para esteira e Society
-- Sessões de 20–25 min, com teto de 30 min
-- Progressão por fases
-- Check-in de joelho, lombar, fadiga e recuperação/sono
-- Esteira com prescrição por faixa de velocidade em km/h
-- Society com distância, repetições, recuperação e zona de desaceleração
-- Sem uso de RPE
-- Histórico local
-- Cronômetro com som e vibração
-- Uso offline após primeiro carregamento
+PRIVACIDADE
+- Dados de treino permanecem em localStorage no aparelho.
+- Sem câmera, microfone, GPS, contatos, arquivos, anúncios, analytics ou SDKs externos.
+- Funciona offline após o primeiro carregamento.
 
-SEGURANÇA
-- Sem câmera, microfone, GPS, contatos ou arquivos
-- Sem analytics, anúncios, SDKs ou bibliotecas externas
-- Sem Google Fonts, CDN ou chamadas externas desnecessárias
-- Dados de treino armazenados no localStorage do dispositivo
-- CSP e Service Worker restritos à mesma origem
-
-ARQUIVOS ESSENCIAIS
+ARQUIVOS PRINCIPAIS
 - index.html
 - app.js
 - manifest.webmanifest
 - service-worker.js
 - icons/
-
-DOCUMENTAÇÃO
 - AUDITORIA_SEGURANCA.txt
-- QA_V6_3.txt
-- README.txt
-
-PUBLICAÇÃO
-Suba os arquivos para a raiz do repositório GitHub Pages.
-
-
-ATUALIZAÇÃO V6.4 — CALIBRAÇÃO AUTOMÁTICA DA ESTEIRA
-- Campo manual de VMC removido.
-- LANÇA conduz uma calibração guiada e define a referência de velocidade.
-- Calibração: 4 min de aquecimento a 4,5 km/h; estágios de 15 s iniciando em 7,0 km/h e aumentando 1,0 km/h; 45 s de recuperação a 4,5 km/h.
-- A maior velocidade concluída integralmente vira a referência.
-- Calibração bloqueada após musculação ou com check-in fora do verde.
-- O usuário não escolhe a intensidade do treino; o LANÇA calcula os km/h automaticamente.
-- Society continua objetivo por metros, repetições, recuperação e desaceleração.
-
-
-ATUALIZAÇÃO V6.4.1 — CORREÇÃO DE IDENTIFICAÇÃO
-- Mantém a lógica funcional da V6.4 sem alterações de treino.
-
-
-ATUALIZAÇÃO V6.4.2 — CORREÇÃO DE CACHE/ATUALIZAÇÃO
-- Corrige retenção de index.html antigo pelo Service Worker.
-- Navegação passa a usar network-first quando houver internet.
-- Nova versão assume controle imediatamente com skipWaiting + clients.claim.
-- Botão Verificar atualização força ativação e recarrega o LANÇA.
-- Uso offline continua preservado.
-
-
-ATUALIZAÇÃO V6.4.3 — QA DE ATUALIZAÇÃO
-- app.js recebe versionamento explícito na URL.
-- registro do Service Worker usa updateViaCache: none.
-- navegação, app.js e manifest usam network-first com cache no-store quando online.
-- cache permanece como fallback quando offline.
-- skipWaiting + clients.claim mantidos para assumir a nova versão imediatamente.
+- QA_V6_7.txt

@@ -34,3 +34,10 @@ ATUALIZAÇÃO V6 — IDENTIDADE LANÇA
 - Nenhum Google Fonts ou CDN.
 - CSP permanece restritiva.
 - Dados migrados para chaves lancaSettings/lancaHistory com leitura retrocompatível.
+
+
+V6.7
+- Animações implementadas como SVG inline gerado pelo app.js local.
+- Nenhum vídeo, iframe, CDN, fonte remota ou mídia externa foi adicionado.
+- Biblioteca de exercícios não adiciona permissões do dispositivo.
+- Estímulo do Y reativo usa somente temporizador local, Math.random() e vibração quando disponível.
